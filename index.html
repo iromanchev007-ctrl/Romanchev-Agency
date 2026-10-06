@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+    <!--
+      Title, description и Open Graph читают Telegram, VK и поисковики.
+      Они не видят то, что подставляет JS, поэтому эти теги меняются ЗДЕСЬ, а не в config.js.
+      og:url и og:image должны быть полными адресами (https://...). После переезда на свой домен замените их.
+    -->
+    <title>Romanchev AI — AI-боты для записи и автоматизации бизнеса</title>
+    <meta
+      name="description"
+      content="AI-боты для записи и бронирования в Telegram и VK, AI-агенты 24/7 и автоматизации на n8n. Бесплатный разбор вашего бизнеса."
+    />
+    <meta name="theme-color" content="#09090b" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Romanchev AI" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:title" content="Romanchev AI — AI-боты для записи и автоматизации бизнеса" />
+    <meta
+      property="og:description"
+      content="Боты записывают клиентов, агенты отвечают 24/7, автоматизации убирают рутину. Бесплатный разбор."
+    />
+    <meta property="og:url" content="https://iromanchev007-ctrl.github.io/Romanchev-Agency/" />
+    <meta property="og:image" content="https://iromanchev007-ctrl.github.io/Romanchev-Agency/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Romanchev AI — AI-боты и автоматизации для бизнеса" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">К содержанию</a>
+
+    <header class="header" data-header>
+      <div class="container header__inner">
+        <a class="logo" href="#top" data-text="brand.name"></a>
+        <a class="btn btn--ghost btn--sm" href="#razbor" data-text="header.button"></a>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="container hero__grid">
+          <div class="hero__text">
+            <h1 class="hero__title reveal" data-text="brand.name"></h1>
+            <p class="hero__tagline reveal" style="--delay: 0.08s" data-text="brand.tagline"></p>
+            <a class="btn btn--lg hero__btn reveal" style="--delay: 0.16s" data-cta-link>
+              <span data-text="hero.button"></span>
+              <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+          </div>
+          <figure class="hero__media reveal" style="--delay: 0.24s" data-hero-media>
+            <img data-hero-image src="" alt="" fetchpriority="high" decoding="async" />
+          </figure>
+        </div>
+      </section>
+
+      <section class="section" id="services" data-section="services">
+        <div class="container">
+          <h2 class="section__title reveal" data-text="servicesTitle"></h2>
+          <div class="services" data-services></div>
+        </div>
+      </section>
+
+      <section class="section" id="cases" data-section="cases">
+        <div class="container">
+          <h2 class="section__title reveal" data-text="casesTitle"></h2>
+          <div class="cases" data-cases></div>
+        </div>
+      </section>
+
+      <section class="section" id="razbor">
+        <div class="container">
+          <div class="cta reveal">
+            <h2 class="cta__title" data-text="cta.title"></h2>
+            <p class="cta__text" data-text="cta.text"></p>
+            <ul class="cta__points" data-cta-points></ul>
+            <a class="btn btn--lg cta__btn" data-cta-link>
+              <span data-text="cta.button"></span>
+              <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__inner">
+        <a class="logo" href="#top" data-text="brand.name"></a>
+        <ul class="footer__contacts" data-contacts></ul>
+        <p class="footer__copy">© <span data-year></span> <span data-text="brand.name"></span></p>
+      </div>
+    </footer>
+
+    <noscript>
+      <p class="noscript">Включите JavaScript, чтобы увидеть содержимое сайта.</p>
+    </noscript>
+
+    <script src="config.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
