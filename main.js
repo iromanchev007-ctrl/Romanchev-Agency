@@ -26,6 +26,7 @@
     website: { label: "Сайт", href: urlHref },
   };
 
+  var ARROW_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
   var CHECK_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 
   /* ---------- Утилиты ---------- */
@@ -48,10 +49,29 @@
     return value != null && String(value).trim() !== "";
   }
 
+  // Ставит текст в элемент. Слова через дефис («ИИ-боты», «бьюти-мастер») не разрываются при переносе строки.
+  function setText(node, text) {
+    node.textContent = "";
+    String(text)
+      .trim()
+      .split(/([^\s-]+(?:-[^\s-]+)+)/)
+      .forEach(function (part, i) {
+        if (!part) return;
+        if (i % 2) {
+          var word = document.createElement("span");
+          word.className = "nowrap";
+          word.textContent = part;
+          node.appendChild(word);
+        } else {
+          node.appendChild(document.createTextNode(part));
+        }
+      });
+  }
+
   function el(tag, className, text) {
     var node = document.createElement(tag);
     if (className) node.className = className;
-    if (isFilled(text)) node.textContent = String(text).trim();
+    if (isFilled(text)) setText(node, text);
     return node;
   }
 
@@ -211,7 +231,7 @@
     $all("[data-text]").forEach(function (node) {
       var value = get(node.getAttribute("data-text"));
       if (isFilled(value)) {
-        node.textContent = String(value).trim();
+        setText(node, value);
       } else {
         node.hidden = true;
       }
@@ -221,18 +241,37 @@
   function fillBrand() {
     var brand = SITE.brand || {};
 
+    // Фото на первом экране: пока файла нет — градиентная заглушка, "" — блок скрыт.
     var media = $("[data-hero-media]");
-    var img = $("[data-hero-image]");
-    var hideMedia = function () {
+    if (isFilled(brand.image)) {
+      var img = el("img");
+      img.alt = brand.imageAlt || "";
+      img.decoding = "async";
+      img.setAttribute("fetchpriority", "high");
+      img.onerror = function () {
+        img.replaceWith(placeholder(1));
+      };
+      img.src = brand.image;
+      media.appendChild(img);
+    } else {
       media.hidden = true;
       $(".hero").classList.add("hero--no-media");
-    };
-    if (isFilled(brand.image)) {
-      img.onerror = hideMedia;
-      img.alt = brand.imageAlt || "";
-      img.src = brand.image;
-    } else {
-      hideMedia();
+    }
+
+    // Эмблема рядом с названием в шапке и футере. Не загрузилась — остаётся цветной квадратик.
+    if (isFilled(brand.logo)) {
+      $all(".logo").forEach(function (logo) {
+        var mark = el("img", "logo__img");
+        mark.alt = "";
+        mark.onload = function () {
+          logo.classList.add("logo--image");
+        };
+        mark.onerror = function () {
+          mark.remove();
+        };
+        mark.src = brand.logo;
+        logo.insertBefore(mark, logo.firstChild);
+      });
     }
 
     if (isFilled(brand.favicon)) {
@@ -284,7 +323,7 @@
     });
   }
 
-  // Позиции бликов для заглушек, чтобы соседние кейсы выглядели по-разному.
+  // Позиции бликов для градиентных заглушек, чтобы соседние выглядели по-разному.
   var GLOWS = [
     ["22%", "28%", "88%", "85%"],
     ["80%", "25%", "15%", "90%"],
@@ -293,7 +332,7 @@
   ];
 
   function placeholder(index) {
-    var node = el("div", "case__placeholder");
+    var node = el("div", "placeholder");
     var g = GLOWS[index % GLOWS.length];
     node.style.setProperty("--glow-x", g[0]);
     node.style.setProperty("--glow-y", g[1]);
@@ -349,6 +388,13 @@
         quote.appendChild(text);
         if (isFilled(item.author)) quote.appendChild(el("figcaption", "case__author", "— " + String(item.author).trim()));
         body.appendChild(quote);
+      }
+
+      if (isFilled(item.link)) {
+        var more = el("a", "case__more", labels.more || "Подробнее");
+        setLink(more, String(item.link).trim());
+        more.insertAdjacentHTML("beforeend", ARROW_ICON);
+        body.appendChild(more);
       }
 
       card.appendChild(body);
